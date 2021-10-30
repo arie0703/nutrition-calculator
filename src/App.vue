@@ -1,14 +1,44 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" width="100">
   <h1>Nutrition Calculator</h1>
+  <input type="text" v-model="search_param">
   <button v-on:click="getData">Get Data</button>
-  <div class="nutrition">
-    <p>food: {{ food_name }}</p>
-    <p>calories: {{ calories }}</p>
-    <p>carbohydrate: {{ carbohydrate }}</p>
-    <p>fat: {{ fat }}</p>
+  <div class="foods">
+    <div class="nutrition-card" v-for="(food, index) in foods" v-bind:key="index">
+      <div class="nutrition-info">
+      <h2>{{ food.food_name }}</h2>
+      <li>calories: {{ food.nf_calories }}</li>
+      <li>protein: {{ food.nf_protein }}</li>
+      <li>carbohydrate: {{ food.nf_total_carbohydrate }}</li>
+      <li>fat: {{ food.nf_total_fat }}</li>
+      </div>
+
+      <div class="food-pic">
+        <img :src="food.photo.thumb">
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+
+.nutrition-card {
+  background: pink;
+  margin: 0 auto;
+  width: 400px;
+  padding: 10px;
+  text-align: left;
+  display: flex;
+}
+
+.food-pic {
+  width: 40%;
+  margin-left: auto;
+  text-align: center;
+}
+
+
+</style>
 
 <script>
 import axios from 'axios'
@@ -17,17 +47,14 @@ export default {
   name: 'App',
   data () {
     return {
-      food_name: "",
-      calories: 0,
-      carbohydrate: 0,
-      protein: 0,
-      fat: 0,
+      search_param: "beer",
+      foods: [],
     }
   },
   methods: {
     getData: function() {
     const apiEndpoint = `https://trackapi.nutritionix.com/v2/natural/nutrients`;
-    const params = { query: "beer" };
+    const params = { query: this.search_param };
     const x_app_id = process.env.VUE_APP_X_APP_ID;
     const x_app_key = process.env.VUE_APP_X_APP_KEY;
     axios.post(apiEndpoint, params, {
@@ -36,18 +63,10 @@ export default {
         "x-app-key": x_app_key
       }
     }).then((res) => {
-      console.log(res.data.foods[0].food_name);
-      console.log(res.data.foods[0].nf_calories);
-      console.log(res.data.foods[0].nf_total_carbohydrate);
-      console.log(res.data.foods[0].nf_protein);
-      console.log(res.data.foods[0].nf_total_fat);
-
-
-      this.food_name = res.data.foods[0].food_name
-      this.calories = res.data.foods[0].nf_calories
-      this.carbohydrate = res.data.foods[0].nf_total_carbohydrate
-      this.protein = res.data.foods[0].nf_protein
-      this.fat = res.data.foods[0].nf_total_fat
+      this.foods = res.data.foods
+      console.log(this.foods)
+    }).catch(() => {
+      console.log("Not Found")
     });
     }
   }
