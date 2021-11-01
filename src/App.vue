@@ -1,21 +1,33 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" width="100">
-  <h1>Nutrition Calculator</h1>
-  <input type="text" v-model="search_param">
-  <button v-on:click="getData">Get Data</button>
+  <img alt="Vue logo" src="./assets/logo.png" width="100" class="m-auto">
+  <p class="text-3xl mb-2">Nutrition Calculator</p>
+  <input type="text" v-model="search_param" class="appearance-none border-2 mr-1 rounded w-200 py-2 px-4 text-gray-700 leading-tight focus:outline-none">
+  <button v-on:click="getData" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded">Get Data</button>
   <div class="foods">
     <ion-card v-for="(food, index) in foods" v-bind:key="index">
-      <div class="nutrition-info">
-      <h2>{{ food.food_name }}</h2>
-      <li>calories: {{ food.nf_calories }}</li>
-      <li>protein: {{ food.nf_protein }}</li>
-      <li>carbohydrate: {{ food.nf_total_carbohydrate }}</li>
-      <li>fat: {{ food.nf_total_fat }}</li>
-      </div>
+      
+        <p class="text-2xl py-1">{{ food.food_name }}</p>
+        <div class="nutrition-info flex">
+          <div class="nutrition-params">
+            <li>calories: {{ food.nf_calories }}</li>
+            <li>protein: {{ food.nf_protein }}</li>
+            <li>carbohydrate: {{ food.nf_total_carbohydrate }}</li>
+            <li>fat: {{ food.nf_total_fat }}</li>
+          </div>
 
-      <div class="food-pic">
-        <img :src="food.photo.thumb">
-      </div>
+          <div class="food-pic">
+            <img :src="food.photo.thumb">
+          </div>
+        </div>
+
+        
+
+        <div class="btn-wrapper flex-auto flex space-x-3">
+          <button class="mt-1 px-1 py-2 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 text-white" type="submit">Add to recipe</button>
+        </div>
+      
+
+      
     </ion-card>
   </div>
 </template>
@@ -60,7 +72,6 @@ ion-card {
   width: 400px;
   padding: 10px;
   text-align: left;
-  display: flex;
   margin-top: 10px;
   color: #222;
 }
