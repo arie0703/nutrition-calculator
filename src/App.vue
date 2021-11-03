@@ -24,7 +24,7 @@
 
         <div class="btn-wrapper flex-auto flex space-x-3">
           <button v-on:click="isShowModal = true" class="mt-1 px-1 py-2 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 text-white" type="submit">
-            Add to recipe
+            Favorite
           </button>
         </div>
       
@@ -36,11 +36,11 @@
     <div v-if="isShowModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
       <div class="modal mt-10 bg-white inline-block rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full mt-3 text-center p-5 sm:ml-4 sm:text-left">
         <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-          Add food to My Recipe
+          Add food to your favorite
         </h3>
         <div class="mt-2">
           <p class="text-sm text-gray-500">
-            Are you sure to add this food to your recipe?
+            Are you sure to add this food to your favorite?
           </p>
         </div>
         <div class="py-3 sm:flex">
@@ -58,6 +58,7 @@
 
 <script>
 import axios from 'axios'
+import {db} from './main.js';
 
 export default {
   name: 'App',
@@ -66,7 +67,17 @@ export default {
       search_param: "beer",
       foods: [],
       isShowModal: false,
+      favorites: [],
     }
+  },
+  mounted: function() {
+    db.collection("favorites").get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          this.favorites.push(doc.data())
+      });
+    });
+    console.log(this.favorites)
   },
   methods: {
     getData: function() {
@@ -82,11 +93,12 @@ export default {
       }).then((res) => {
         this.foods = res.data.foods
         console.log(this.foods)
+        console.log(this.favorites)
       }).catch(() => {
         console.log("Not Found")
       });
     },
-  }
+  },
 }
 </script>
 
