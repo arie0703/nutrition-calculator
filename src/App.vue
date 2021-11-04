@@ -23,7 +23,7 @@
         
 
         <div class="btn-wrapper flex-auto flex space-x-3">
-          <button v-on:click="isShowModal = true" class="mt-1 px-1 py-2 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 text-white" type="submit">
+          <button v-on:click="openModal(food)" class="mt-1 px-1 py-2 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 text-white" type="submit">
             Favorite
           </button>
         </div>
@@ -44,7 +44,7 @@
           </p>
         </div>
         <div class="py-3 sm:flex">
-          <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellow-600 text-base font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:ml-3 sm:w-auto sm:text-sm">
+          <button v-on:click="addFavorite" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellow-600 text-base font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:ml-3 sm:w-auto sm:text-sm">
             Add
           </button>
           <button v-on:click="isShowModal = false" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
@@ -68,6 +68,7 @@ export default {
       foods: [],
       isShowModal: false,
       favorites: [],
+      selected: {},
     }
   },
   mounted: function() {
@@ -98,6 +99,27 @@ export default {
         console.log("Not Found")
       });
     },
+    openModal: function(food) {
+      this.selected = food
+      console.log(this.selected)
+      this.isShowModal = true
+    },
+    addFavorite: function() {
+      db.collection("favorites").add({
+        food_name: this.selected.food_name,
+        calories: this.selected.nf_calories,
+        protein: this.selected.nf_protein,
+        fat: this.selected.nf_total_fat,
+        carbohydrate: this.selected.nf_total_carbohydrate,
+        image_url: this.selected.photo.thumb,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
   },
 }
 </script>
