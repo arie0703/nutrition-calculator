@@ -32,6 +32,10 @@
       
     </ion-card>
 
+    <Favorites
+      ref="favorites"
+    />
+
     <!-- modal -->
     <div v-if="isShowModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
       <div class="modal mt-10 bg-white inline-block rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full mt-3 text-center p-5 sm:ml-4 sm:text-left">
@@ -59,6 +63,7 @@
 <script>
 import axios from 'axios'
 import {db} from './main.js';
+import Favorites from './components/Favorites';
 
 export default {
   name: 'App',
@@ -67,18 +72,11 @@ export default {
       search_param: "beer",
       foods: [],
       isShowModal: false,
-      favorites: [],
       selected: {},
     }
   },
-  mounted: function() {
-    db.collection("favorites").get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          this.favorites.push(doc.data())
-      });
-    });
-    console.log(this.favorites)
+  components: {
+    Favorites,
   },
   methods: {
     getData: function() {
@@ -115,6 +113,9 @@ export default {
       })
       .then((res) => {
         console.log(res);
+        console.log(this.$refs.favorites)
+        this.$refs.favorites.fetchFavorites()
+        this.isShowModal = false
       })
       .catch((error) => {
         console.error(error);
