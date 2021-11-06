@@ -1,6 +1,13 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" width="100" class="m-auto">
   <p class="text-3xl mb-2">Nutrition Calculator</p>
+  <p>Calories: {{calcData.calories}}</p>
+  <p>Protein: {{calcData.protein}}</p>
+  <p>Fat: {{calcData.fat}}</p>
+  <p>Carbohydrate: {{calcData.carbohydrate}}</p>
+  <li v-for="(food, index) in calcData.foods" v-bind:key="index">
+    {{food}}
+  </li>
   <input type="text" v-model="search_param" class="appearance-none border-2 mr-1 rounded w-200 py-2 px-4 text-gray-700 leading-tight focus:outline-none">
   <button v-on:click="getData" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded">Get Data</button>
   <div class="foods">
@@ -26,6 +33,9 @@
           <button v-on:click="openModal(food)" class="mt-1 px-1 py-2 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 text-white" type="submit">
             Favorite
           </button>
+          <CalcButton
+            :food="food"
+          />
         </div>
       
 
@@ -64,6 +74,7 @@
 import axios from 'axios'
 import {db} from './main.js';
 import Favorites from './components/Favorites';
+import CalcButton from './components/CalcButton';
 
 export default {
   name: 'App',
@@ -73,10 +84,18 @@ export default {
       foods: [],
       isShowModal: false,
       selected: {},
+      calcData: {
+        calories: 0,
+        protein: 0,
+        fat: 0,
+        carbohydrate: 0,
+        foods: [],
+      },
     }
   },
   components: {
     Favorites,
+    CalcButton,
   },
   methods: {
     getData: function() {
