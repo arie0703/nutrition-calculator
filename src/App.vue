@@ -1,13 +1,8 @@
 <template>
+  <div class="width-300 relative m-auto">
   <img alt="Vue logo" src="./assets/logo.png" width="100" class="m-auto">
   <p class="text-3xl mb-2">Nutrition Calculator</p>
-  <p>Calories: {{calcData.calories}}</p>
-  <p>Protein: {{calcData.protein}}</p>
-  <p>Fat: {{calcData.fat}}</p>
-  <p>Carbohydrate: {{calcData.carbohydrate}}</p>
-  <li v-for="(food, index) in calcData.foods" v-bind:key="index">
-    {{food}}
-  </li>
+  <Calculator :calcData="calcData" :foods="foods" />
   <input type="text" v-model="search_param" class="appearance-none border-2 mr-1 rounded w-200 py-2 px-4 text-gray-700 leading-tight focus:outline-none">
   <button v-on:click="getData" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded">Get Data</button>
   <div class="foods">
@@ -68,6 +63,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -75,6 +71,7 @@ import axios from 'axios'
 import {db} from './main.js';
 import Favorites from './components/Favorites';
 import CalcButton from './components/CalcButton';
+import Calculator from './components/Calculator';
 
 export default {
   name: 'App',
@@ -96,6 +93,7 @@ export default {
   components: {
     Favorites,
     CalcButton,
+    Calculator,
   },
   methods: {
     getData: function() {
@@ -145,6 +143,9 @@ export default {
 </script>
 
 <style scoped>
+.width-300 {
+  width: 400px;
+}
 
 ion-card {
   margin: 0 auto;
@@ -153,6 +154,7 @@ ion-card {
   text-align: left;
   margin-top: 10px;
   color: #222;
+  z-index: 1;
 }
 
 .food-pic {
