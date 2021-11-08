@@ -10,17 +10,20 @@
 export default {
     name: "CalcButton",
     props: {
-        food: Object,
+        food_name: String,
+        calories: Number,
+        protein: Number,
+        fat: Number,
+        carbohydrate: Number,
     },
     methods: {
         calculate: function(data) {
-            data.calories += Math.round(this.food.nf_calories)
-            data.protein += Math.round(this.food.nf_protein)
-            data.fat += Math.round(this.food.nf_total_fat)
-            data.carbohydrate += Math.round(this.food.nf_total_carbohydrate)
-            data.foods.push(this.food.food_name)
+            data.calories += Math.round(this.calories)
+            data.protein += Math.round(this.protein)
+            data.fat += Math.round(this.fat)
+            data.carbohydrate += Math.round(this.carbohydrate)
+            data.foods.push(this.food_name)
             this.$parent.calcData = data
-            
         }
     }
 }
