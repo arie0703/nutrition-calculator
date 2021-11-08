@@ -16,6 +16,16 @@
                         <img :src="favorite.image_url">
                     </div>
                 </div>
+
+                <div class="btn-wrapper flex-auto flex space-x-3">
+                  <CalcButton
+                    :food_name="favorite.food_name"
+                    :calories="favorite.calories"
+                    :protein="favorite.protein"
+                    :fat="favorite.fat"
+                    :carbohydrate="favorite.carbohydrate"
+                  />
+                </div>
             </div>
         </div>
     </div>
@@ -23,13 +33,20 @@
 
 <script>
 import {db} from '../main.js';
+import CalcButton from './CalcButton';
 
 export default {
   name: "Favorites",
+  props: {
+    calcData: Object,
+  },
   data () {
     return {
       favorites: [],
     }
+  },
+  components: {
+    CalcButton
   },
   mounted: function() {
     this.fetchFavorites();

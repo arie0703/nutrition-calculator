@@ -29,7 +29,11 @@
             Favorite
           </button>
           <CalcButton
-            :food="food"
+            :food_name="food.food_name"
+            :calories="food.nf_calories"
+            :protein="food.nf_protein"
+            :fat="food.nf_total_fat"
+            :carbohydrate="food.nf_total_carbohydrate"
           />
         </div>
       
@@ -37,9 +41,7 @@
       
     </ion-card>
 
-    <Favorites
-      ref="favorites"
-    />
+    <Favorites ref="favorites" :calcData="calcData"/>
 
     <!-- modal -->
     <div v-if="isShowModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
