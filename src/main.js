@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { IonicVue } from '@ionic/vue';
 import './styles/common.css';
 import firebase from "firebase";
+import installElementPlus from './plugins/element'
 
 const config = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
@@ -18,4 +18,6 @@ const config = {
 firebase.initializeApp(config);
 export const db = firebase.firestore();
 
-createApp(App).use(IonicVue).mount('#app')
+const app = createApp(App)
+installElementPlus(app)
+app.mount('#app')

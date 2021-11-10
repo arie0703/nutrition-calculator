@@ -2,11 +2,14 @@
   <div class="width-300 relative m-auto">
   <img alt="Vue logo" src="./assets/logo.png" width="100" class="m-auto">
   <p class="text-3xl mb-2">Nutrition Calculator</p>
+  
   <Calculator :calcData="calcData" :foods="foods" />
-  <input type="text" v-model="search_param" class="appearance-none border-2 mr-1 rounded w-200 py-2 px-4 text-gray-700 leading-tight focus:outline-none">
-  <button v-on:click="getData" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded">Get Data</button>
+  <div class="flex">
+    <el-input type="text" v-model="search_param" class="appearance-none rounded w-200 mr-1 text-gray-700 leading-tight focus:outline-none"></el-input>
+    <el-button v-on:click="getData" type="warning">Get Data</el-button>
+  </div>
   <div class="foods">
-    <ion-card v-for="(food, index) in foods" v-bind:key="index">
+    <el-card class="text-left mt-1" v-for="(food, index) in foods" v-bind:key="index">
       
         <p class="text-2xl py-1">{{ food.food_name }}</p>
         <div class="nutrition-info flex">
@@ -39,7 +42,7 @@
       
 
       
-    </ion-card>
+    </el-card>
 
     <Favorites ref="favorites" :calcData="calcData"/>
 
