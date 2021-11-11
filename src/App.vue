@@ -37,6 +37,7 @@
             :protein="food.nf_protein"
             :fat="food.nf_total_fat"
             :carbohydrate="food.nf_total_carbohydrate"
+            :calcData="calcData"
           />
         </div>
       

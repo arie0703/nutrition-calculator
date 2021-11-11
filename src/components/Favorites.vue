@@ -24,6 +24,7 @@
                     :protein="favorite.protein"
                     :fat="favorite.fat"
                     :carbohydrate="favorite.carbohydrate"
+                    :calcData="calcData"
                   />
                 </div>
             </div>
